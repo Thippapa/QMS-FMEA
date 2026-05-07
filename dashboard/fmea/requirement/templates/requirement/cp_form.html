@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Plan</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#f4f7fb;
+            font-family:'Inter', sans-serif;
+            color:#1e293b;
+            padding:28px;
+        }
+
+        .page-container{
+            max-width:1450px;
+            margin:auto;
+        }
+
+        .top-section{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            gap:24px;
+            margin-bottom:24px;
+        }
+
+        .title-section h1{
+            font-size:32px;
+            font-weight:800;
+            color:#0f172a;
+            margin-bottom:8px;
+            letter-spacing:-0.6px;
+        }
+
+        .title-section p{
+            font-size:14px;
+            color:#64748b;
+            line-height:1.7;
+            font-family:'Kanit', sans-serif;
+        }
+
+        .top-cards{
+            display:flex;
+            gap:16px;
+            flex-shrink:0;
+        }
+
+        .info-card,
+        .filter-card,
+        .table-card{
+            background:white;
+            border:1px solid #eef2f7;
+            box-shadow:0 8px 24px rgba(15,23,42,0.05);
+        }
+
+        .info-card{
+            border-radius:18px;
+            padding:18px 20px;
+            min-width:210px;
+        }
+
+        .label{
+            font-size:11px;
+            color:#94a3b8;
+            margin-bottom:10px;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:1.1px;
+        }
+
+        .value{
+            font-size:32px;
+            font-weight:800;
+            color:#2563eb;
+            line-height:1;
+        }
+
+        .refresh-time{
+            font-size:18px;
+            font-weight:800;
+            color:#0f172a;
+        }
+
+        .subtext{
+            margin-top:8px;
+            font-size:11px;
+            color:#94a3b8;
+            font-weight:400;
+            font-family:'Kanit', sans-serif;
+            line-height:1.4;
+        }
+
+        .filter-card{
+            border-radius:22px;
+            padding:18px 22px;
+            margin-bottom:22px;
+        }
+
+        .filters{
+            display:flex;
+            gap:12px;
+            align-items:flex-end;
+            flex-wrap:wrap;
+        }
+
+        .field{
+            min-width:190px;
+        }
+
+        .field.document-field{
+            min-width:300px;
+            flex:1.2;
+        }
+
+        .field label{
+            display:block;
+            font-size:11px;
+            font-weight:800;
+            color:#64748b;
+            text-transform:uppercase;
+            letter-spacing:1px;
+            margin-bottom:8px;
+        }
+
+        select,
+        input{
+            width:100%;
+            height:42px;
+            padding:0 14px;
+            border-radius:12px;
+            border:1px solid #dbe2ea;
+            background:#f8fafc;
+            font-size:14px;
+            font-family:'Inter', sans-serif;
+            outline:none;
+            transition:0.2s;
+        }
+
+        select:focus,
+        input:focus{
+            border-color:#2563eb;
+            background:white;
+            box-shadow:0 0 0 4px rgba(37,99,235,0.08);
+        }
+
+        .btn{
+            height:42px;
+            padding:0 20px;
+            border:none;
+            border-radius:12px;
+            font-size:14px;
+            font-weight:800;
+            cursor:pointer;
+            font-family:'Inter', sans-serif;
+            background:#2563eb;
+            color:white;
+            transition:0.2s;
+        }
+
+        .btn:hover{
+            background:#1d4ed8;
+            transform:translateY(-1px);
+        }
+
+        .filter-action{
+        display:flex;
+        align-items:flex-end;
+        }
+
+        .filter-action .btn{
+            min-width:110px;
+        }
+
+        .table-card{
+            border-radius:22px;
+            overflow:hidden;
+        }
+
+        .table-header{
+            padding:20px 22px;
+            border-bottom:1px solid #e2e8f0;
+        }
+
+        .table-header h3{
+            font-size:20px;
+            color:#0f172a;
+            font-weight:800;
+        }
+
+        .table-subtitle{
+            margin-top:6px;
+            font-size:13px;
+            color:#64748b;
+            font-family:'Kanit', sans-serif;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        thead{
+            background:#f8fafc;
+        }
+
+        th{
+            padding:15px 18px;
+            text-align:left;
+            font-size:12px;
+            color:#64748b;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:0.7px;
+            white-space:nowrap;
+            border-bottom:1px solid #e2e8f0;
+        }
+
+        td{
+            padding:16px 18px;
+            font-size:14px;
+            color:#334155;
+            border-bottom:1px solid #edf2f7;
+            vertical-align:top;
+        }
+
+        tbody tr.main-row:hover{
+            background:#f8fbff;
+        }
+
+        .text-cell{
+            font-family:'Kanit', sans-serif;
+            line-height:1.6;
+        }
+
+        .pill{
+            display:inline-block;
+            padding:6px 10px;
+            border-radius:999px;
+            background:#dbeafe;
+            color:#1d4ed8;
+            font-size:12px;
+            font-weight:800;
+            white-space:nowrap;
+        }
+
+        .view-btn{
+            border:none;
+            border-radius:999px;
+            padding:8px 12px;
+            background:#eff6ff;
+            color:#2563eb;
+            font-size:12px;
+            font-weight:800;
+            cursor:pointer;
+            transition:0.2s;
+            white-space:nowrap;
+        }
+
+        .view-btn:hover{
+            background:#dbeafe;
+        }
+
+        .detail-row{
+            display:none;
+            background:#fbfdff;
+        }
+
+        .detail-row.show{
+            display:table-row;
+        }
+
+        .detail-cell{
+            padding:0 18px 18px 18px;
+            border-bottom:1px solid #edf2f7;
+        }
+
+        .detail-panel{
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:18px;
+            padding:18px;
+            margin-top:2px;
+        }
+
+        .detail-grid{
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:14px;
+        }
+
+        .detail-box{
+            background:white;
+            border:1px solid #eef2f7;
+            border-radius:14px;
+            padding:14px 16px;
+        }
+
+        .detail-label{
+            font-size:10px;
+            color:#94a3b8;
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:1px;
+            margin-bottom:8px;
+        }
+
+        .detail-value{
+            font-size:14px;
+            color:#334155;
+            line-height:1.6;
+            font-family:'Kanit', sans-serif;
+        }
+
+        .empty-state{
+            text-align:center;
+            padding:40px !important;
+            color:#94a3b8;
+            font-size:14px;
+        }
+
+        .footer-note{
+            margin-top:14px;
+            text-align:right;
+            font-size:12px;
+            color:#94a3b8;
+        }
+
+        @media(max-width:1000px){
+            body{
+                padding:18px;
+            }
+
+            .top-section{
+                flex-direction:column;
+            }
+
+            .top-cards{
+                width:100%;
+                flex-direction:column;
+            }
+
+            .info-card,
+            .field,
+            .btn{
+                width:100%;
+                min-width:unset;
+            }
+
+            .filters{
+                flex-direction:column;
+                align-items:stretch;
+            }
+
+            .detail-grid{
+                grid-template-columns:1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <div class="top-section">
+
+        <div class="title-section">
+            <h1>Control Plan</h1>
+
+            <p>
+                Smart control plan view with key process information upfront
+                and detailed control information available on demand.
+            </p>
+        </div>
+
+        <div class="top-cards">
+
+            <div class="info-card">
+                <div class="label">Total Records</div>
+                <div class="value">{{ total_records }}</div>
+                <div class="subtext">All control plan rows in view</div>
+            </div>
+
+            <div class="info-card">
+                <div class="label">Last Refresh</div>
+                <div class="refresh-time">{% now "d/m/Y H:i:s A" %}</div>
+                <div class="subtext">Updated when the page loads</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="filter-card">
+
+        <div class="filters">
+
+            <div class="field document-field">
+                <label>Document Name</label>
+
+                <select id="documentFilter">
+                    <option value="">All Documents</option>
+
+                    {% for name in document_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Search Process Name</label>
+
+                <input
+                    type="text"
+                    id="processSearchInput"
+                    placeholder="Search Process Name ..."
+                >
+            </div>
+
+            <div class="field">
+                <label>Search Machine</label>
+
+                <input
+                    type="text"
+                    id="machineSearchInput"
+                    placeholder="Search Machine ..."
+                >
+            </div>
+
+            <div class="field">
+                <label>Search Product</label>
+
+                <input
+                    type="text"
+                    id="productSearchInput"
+                    placeholder="Search Product ..."
+                >
+            </div>
+
+            <div class="field">
+                <label>Search Process</label>
+
+                <input
+                    type="text"
+                    id="processTypeSearchInput"
+                    placeholder="Search Process ..."
+                >
+            </div>
+            
+
+            <div class="filter-action">
+
+                <button class="btn" id="resetButton">
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-header">
+            <h3>Control Plan Records</h3>
+
+            <div class="table-subtitle">
+                Main table shows key fields only. Click View Details to inspect specification, measurement, control method, and reaction plan.
+            </div>
+        </div>
+
+        <table id="cpTable">
+
+            <thead>
+                <tr>
+                    <th>Document Name</th>
+                    <th>Process No.</th>
+                    <th>Process Name</th>
+                    <th>Machine</th>
+                    <th>Product</th>
+                    <th>Process</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in cp_records %}
+
+                <tr class="main-row">
+                    <td class="text-cell">{{ item.Description1|default:"-" }}</td>
+                    <td><span class="pill">{{ item.ProcessNumber|default:"-" }}</span></td>
+                    <td class="text-cell">{{ item.ProcessName|default:"-" }}</td>
+                    <td>{{ item.Machine|default:"-" }}</td>
+                    <td class="text-cell">{{ item.Product|default:"-" }}</td>
+                    <td class="text-cell">{{ item.Process|default:"-" }}</td>
+                    <td>
+                        <button type="button" class="view-btn">
+                            View Details
+                        </button>
+                    </td>
+                </tr>
+
+                <tr class="detail-row">
+                    <td colspan="7" class="detail-cell">
+
+                        <div class="detail-panel">
+
+                            <div class="detail-grid">
+
+                                <div class="detail-box">
+                                    <div class="detail-label">No.</div>
+                                    <div class="detail-value">
+                                        {{ item.Number|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">SPEC</div>
+                                    <div class="detail-value">
+                                        {{ item.SPEC|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">Measurement</div>
+                                    <div class="detail-value">
+                                        {{ item.Measurement|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">Sample Size</div>
+                                    <div class="detail-value">
+                                        {{ item.SampleSize|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">Frequency</div>
+                                    <div class="detail-value">
+                                        {{ item.FREQ|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">Control Method</div>
+                                    <div class="detail-value">
+                                        {{ item.ControlMethod|default:"-" }}
+                                    </div>
+                                </div>
+
+                                <div class="detail-box">
+                                    <div class="detail-label">Reaction Plan</div>
+                                    <div class="detail-value">
+                                        {{ item.ReactionPlan|default:"-" }}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="7" class="empty-state">
+                        No CP records found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="footer-note">
+        Data displayed from CPform SQL View.
+    </div>
+
+</div>
+
+<script>
+    const documentFilter = document.getElementById('documentFilter');
+    const processSearchInput = document.getElementById('processSearchInput');
+    const machineSearchInput = document.getElementById('machineSearchInput');
+    const productSearchInput = document.getElementById('productSearchInput');
+    const processTypeSearchInput = document.getElementById('processTypeSearchInput');
+    const resetButton = document.getElementById('resetButton');
+
+    const mainRows = document.querySelectorAll('#cpTable tbody tr.main-row');
+
+    function filterTable(){
+        const documentValue = documentFilter.value.toLowerCase().trim();
+        const processValue = processSearchInput.value.toLowerCase().trim();
+        const machineValue = machineSearchInput.value.toLowerCase().trim();
+
+        mainRows.forEach(row => {
+            const detailRow = row.nextElementSibling;
+
+            const documentName = row.cells[0]?.textContent.toLowerCase().trim() || '';
+            const processName = row.cells[2]?.textContent.toLowerCase().trim() || '';
+            const machineName = row.cells[3]?.textContent.toLowerCase().trim() || '';
+
+            const matchDocument =
+                !documentValue ||
+                documentName === documentValue;
+
+            const matchProcess =
+                processName.includes(processValue);
+
+            const matchMachine =
+                machineName.includes(machineValue);
+
+            const isVisible =
+                matchDocument &&
+                matchProcess &&
+                matchMachine;
+
+            row.style.display = isVisible ? '' : 'none';
+
+            if(detailRow){
+                detailRow.style.display =
+                    isVisible && detailRow.classList.contains('show')
+                        ? 'table-row'
+                        : 'none';
+            }
+        });
+    }
+
+    documentFilter.addEventListener('change', filterTable);
+    processSearchInput.addEventListener('keyup', filterTable);
+    machineSearchInput.addEventListener('keyup', filterTable);
+
+    resetButton.addEventListener('click', () => {
+        documentFilter.value = '';
+        processSearchInput.value = '';
+        machineSearchInput.value = '';
+
+        mainRows.forEach(row => {
+            const detailRow = row.nextElementSibling;
+
+            if(detailRow){
+                detailRow.classList.remove('show');
+                detailRow.style.display = 'none';
+            }
+
+            const btn = row.querySelector('.view-btn');
+            if(btn){
+                btn.textContent = 'View Details';
+            }
+        });
+
+        filterTable();
+    });
+
+    document.querySelectorAll('.view-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const mainRow = button.closest('tr');
+            const detailRow = mainRow.nextElementSibling;
+
+            if(!detailRow){
+                return;
+            }
+
+            const isOpen = detailRow.classList.contains('show');
+
+            detailRow.classList.toggle('show');
+
+            detailRow.style.display = isOpen ? 'none' : 'table-row';
+
+            button.textContent = isOpen ? 'View Details' : 'Hide Details';
+        });
+    });
+</script>
+
+</body>
+</html>
